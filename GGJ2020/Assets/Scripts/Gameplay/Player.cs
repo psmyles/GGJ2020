@@ -57,6 +57,8 @@ public class Player : Character
     private Vector3                             m_LastDashDecalPointAdded;
     [SerializeField]
     private float                               m_DecalPointAddDist = 1.0f;
+    [SerializeField]
+    private float                               m_DecalThickness = 0.25f;
 
     private static readonly float               TURN_DIR_EPSILON = 0.00001f;
 
@@ -65,6 +67,14 @@ public class Player : Character
 
     private Vector3                             m_StartDashInputDir;
     private Vector3                             m_CurrDashInputDir;
+
+    [SerializeField]
+    private float                               m_DashStateTimeGap = 0.25f;
+
+    private float                               m_LastDashEnded = 0.0f;
+
+    [SerializeField]
+    private float                               m_InputRotation = -90.0f;
 
 
     protected void Awake()
@@ -102,7 +112,10 @@ public class Player : Character
 		{
 			m_AttackComboTimer = 0.0f;
 		}
-	}
+
+        m_LastDashEnded -= Time.deltaTime;
+
+    }
 	
 	// Called before called Attacked if returns false Attacked will get called even if weapon
 	// Collides with this actor
@@ -208,6 +221,9 @@ public class Player : Character
                     m_MoveDir.x = -turnLeftValue;
                 }
 
+                Vector3 NewMoveDir = Quaternion.AngleAxis(m_InputRotation, Vector3.up) * (new Vector3(m_MoveDir.x, 0.0f, m_MoveDir.y));
+                m_MoveDir = new Vector2(NewMoveDir.x, NewMoveDir.z);
+
                 return m_AllStates[(int)PlayerStates.ePS_Run];
             }
             else
@@ -221,7 +237,7 @@ public class Player : Character
 
     public State CheckDashState(State currState)
     {
-        if (m_BufferedInput != null)
+        if (m_BufferedInput != null && m_LastDashEnded <= 0.0f)
         {
             float forwardValue = 0.0f;
             float backwardValue = 0.0f;
@@ -260,6 +276,9 @@ public class Player : Character
                 {
                     m_DashDir.x = -turnLeftValue;
                 }
+
+                Vector3 NewMoveDir = Quaternion.AngleAxis(m_InputRotation, Vector3.up) * (new Vector3(m_DashDir.x, 0.0f, m_DashDir.y));
+                m_DashDir = new Vector2(NewMoveDir.x, NewMoveDir.z);
 
                 /*m_CurrDashInputDir = m_DashDir;
                 if (currState != m_AllStates[(int)PlayerStates.ePS_Dash])
@@ -333,6 +352,14 @@ public class Player : Character
         CurrentMoveSpeed = m_DefaultMoveSpeed;
 		m_Animation.CrossFade("Run");
 
+        /*if (Vector3.Dot(m_MoveDir, transform.forward) <= -0.98f)
+        {
+            Vector3 right = Vector3.Cross(m_MoveDir, transform.up);
+            Vector2 right2d = new Vector2(right.x, right.z);
+            m_MoveDir += right2d.normalized * 0.25f;
+            m_MoveDir.Normalize();
+        }*/
+
         Vector3 turnDir = new Vector3(m_MoveDir.x, 0.0f, m_MoveDir.y);
         if (turnDir.sqrMagnitude >= TURN_DIR_EPSILON)
         {
@@ -361,6 +388,7 @@ public class Player : Character
         m_PlayerStateMachine.CanChangeState = false;
 
         m_CurrentDecal = m_DecalsManaer.CreateDecal(DecalsManager.DecalsType.DT_Tape);
+        m_CurrentDecal.Thickness = m_DecalThickness;
         m_CurrentDecal.AddPoint(transform.position + Vector3.up * m_DecalUpOffset);
         m_CurrentDecal.UpVector = transform.up;
         m_LastDashDecalPointAdded = transform.position;
@@ -374,6 +402,7 @@ public class Player : Character
         if (m_CurrentDashSpeed <= 0.0f)
         {
             m_PlayerStateMachine.CanChangeState = true;
+            m_LastDashEnded = m_DashStateTimeGap;
         }
 
         Vector3 turnDir = new Vector3(m_CurrDashDir.x, 0.0f, m_CurrDashDir.y);
@@ -395,6 +424,8 @@ public class Player : Character
     {
         CurrentMoveSpeed = 0;
         ClearCharacterFlag(CharacterFlag.eCF_ResetMoveSpeedAfterUse);
+
+        m_LastDashEnded = m_DashStateTimeGap;
     }
     // End Dash State
     // -----------------

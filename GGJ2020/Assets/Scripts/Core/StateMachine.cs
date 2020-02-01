@@ -216,6 +216,11 @@ public class StateMachine
 		{
 			state.BeginState(m_CurrState,state);
 		}
+
+        if (m_CurrState != state)
+        {
+            Debug.Log("################ Changed state to : " + state.Name);
+        }
 		
 		m_CurrState = state;
 	}
