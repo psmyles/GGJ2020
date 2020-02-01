@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+/GGJ2020/obj
+/GGJ2020/Logs
+/GGJ2020/Temp
