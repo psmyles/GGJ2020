@@ -36,11 +36,11 @@ public abstract class Actor : MonoBehaviour
 		if( m_AllActorTriggerBaseAttached.ContainsKey(triggerBase.GetType()) != true )
 		{
 			m_AllActorTriggerBaseAttached.Add(triggerBase.GetType(),triggerBase);
-			triggerBase.Enabled = false;
+			triggerBase.Enabled = true;
 		}
 		else
 		{
-			triggerBase.gameObject.SetActiveRecursively(false);
+			triggerBase.gameObject.SetActive(false);
 			Debug.LogError("Already 'ActorTriggerBase' of type '" + triggerBase.GetType() + "' attached to game object '" + gameObject.name + "'");
 			Debug.Break();
 		}
@@ -56,7 +56,7 @@ public abstract class Actor : MonoBehaviour
 				triggerBase.Enabled = false;
 				if( m_AllActorTriggerBaseAttached.Remove(triggerBase.GetType()) == false )
 				{
-					triggerBase.gameObject.SetActiveRecursively(false);
+					triggerBase.gameObject.SetActive(false);
 					Debug.LogError("Unable to remove 'ActorTriggerBase' of type '" + triggerBase.GetType() + "' attached to game object '" + gameObject.name + "'");
 					Debug.Break();	
 				}
@@ -70,18 +70,6 @@ public abstract class Actor : MonoBehaviour
 		{
 			m_AllActorTriggerBaseAttached[triggerType].Enabled = enabled;
 			//m_AllActorTriggerBaseSetToDefault = enabled;
-		}
-	}
-	
-	public void SetToDefaultEnabledAllActorTriggerBase()
-	{
-		if( !m_AllActorTriggerBaseSetToDefault )
-		{
-			foreach(KeyValuePair<System.Type,ActorTriggerBase> entry in m_AllActorTriggerBaseAttached)
-			{
-			    entry.Value.Enabled = entry.Value.DefaultEnabled;
-			}
-			m_AllActorTriggerBaseSetToDefault = true;
 		}
 	}
 }

@@ -24,7 +24,7 @@ public class Player : Character
 		ePS_Count
 	}
 
-	
+    	
 	public PlayerProperties						m_Properties;
 
     [SerializeField]
@@ -39,7 +39,7 @@ public class Player : Character
 	private	Vector3								m_RunVelocityAppliedToJump = Vector3.zero;
 
     [SerializeField]
-    private float                               m_DefaultMoveSpeed = 0.0f;
+    private float                               m_DefaultMoveSpeed = 10.0f;
     [SerializeField]
     private float                               m_MoveAcceleration = 10.0f;
 
@@ -60,7 +60,14 @@ public class Player : Character
 
     private static readonly float               TURN_DIR_EPSILON = 0.00001f;
 
-	protected void Awake()
+    [SerializeField]
+    private float                               m_DecalUpOffset = 0.01f;
+
+    private Vector3                             m_StartDashInputDir;
+    private Vector3                             m_CurrDashInputDir;
+
+
+    protected void Awake()
 	{
 		m_BufferedInput = GetComponent<BufferedInput>();
 		if( m_BufferedInput == null )
@@ -68,7 +75,7 @@ public class Player : Character
 			Debug.LogError("Buffered input is not attached to game object '" + gameObject.name + "'");
 			Debug.Break();
 		}
-		//m_Animation = GetComponent<Animation>();
+		m_Animation = GetComponent<Animation>();
 		m_AllStates = new State[(int)PlayerStates.ePS_Count];
 		InitializeAllStates();
         //CurrentGravityScale = 0.15f;
@@ -254,6 +261,19 @@ public class Player : Character
                     m_DashDir.x = -turnLeftValue;
                 }
 
+                /*m_CurrDashInputDir = m_DashDir;
+                if (currState != m_AllStates[(int)PlayerStates.ePS_Dash])
+                {
+                    m_StartDashInputDir = m_DashDir;
+                }
+                else
+                {
+                    if (Vector3.Dot(m_CurrDashInputDir, m_StartDashInputDir) <= 0.85f)
+                    {
+                        return null;
+                    }
+                }*/
+
                 return m_AllStates[(int)PlayerStates.ePS_Dash];
             }
         }
@@ -282,7 +302,8 @@ public class Player : Character
 		//Debug.Log("Begin state : " + newState.Name);
 		//m_Animation.Stop();
 		m_AnimEventData = null;
-		SetCharacterFlag(CharacterFlag.eCF_ResetMoveSpeedAfterUse);
+        CurrentMoveSpeed = 0.0f;
+        SetCharacterFlag(CharacterFlag.eCF_ResetMoveSpeedAfterUse);
 	}
 	
 	public void UpdateIdleState(State currState, float deltaTime)
@@ -310,7 +331,7 @@ public class Player : Character
 	public void UpdateMoveState(State currState, float deltaTime)
 	{
         CurrentMoveSpeed = m_DefaultMoveSpeed;
-			//m_Animation.CrossFade("Run");
+		m_Animation.CrossFade("Run");
 
         Vector3 turnDir = new Vector3(m_MoveDir.x, 0.0f, m_MoveDir.y);
         if (turnDir.sqrMagnitude >= TURN_DIR_EPSILON)
@@ -340,7 +361,7 @@ public class Player : Character
         m_PlayerStateMachine.CanChangeState = false;
 
         m_CurrentDecal = m_DecalsManaer.CreateDecal(DecalsManager.DecalsType.DT_Tape);
-        m_CurrentDecal.AddPoint(transform.position);
+        m_CurrentDecal.AddPoint(transform.position + Vector3.up * m_DecalUpOffset);
         m_CurrentDecal.UpVector = transform.up;
         m_LastDashDecalPointAdded = transform.position;
     }
@@ -365,7 +386,7 @@ public class Player : Character
 
         if (Vector3.SqrMagnitude(m_LastDashDecalPointAdded - transform.position) >= (m_DecalPointAddDist * m_DecalPointAddDist))
         {
-            m_CurrentDecal.AddPoint(transform.position);
+            m_CurrentDecal.AddPoint(transform.position + Vector3.up * m_DecalUpOffset);
             m_LastDashDecalPointAdded = transform.position;
         }
     }

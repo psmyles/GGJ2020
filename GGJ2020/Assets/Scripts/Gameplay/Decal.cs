@@ -73,6 +73,15 @@ public class Decal : MonoBehaviour
         RefreshMesh();
     }
 
+    public void AddPoints(List<Vector3> points)
+    {
+        if (m_Points == null)
+            m_Points = new List<Vector3>();
+
+        m_Points.AddRange(points);
+        RefreshMesh();
+    }
+
     public void ResetPoints()
     {
         m_Points.Clear();

@@ -13,7 +13,6 @@ public class Attacker : ActorTriggerBase
 	protected override void Awake()
 	{
 		base.Awake();
-		m_DefaultEnabled = false;
 	}
 	
 	// Use this for initialization
@@ -34,7 +33,9 @@ public class Attacker : ActorTriggerBase
 	// Update is called once per frame
 	protected override void Update () 
 	{
-		if( m_ThisFrameAttacked == true )
+        base.Update();
+
+        if ( m_ThisFrameAttacked == true )
 		{
 			//Debug.Log("Enabled false");
 			Enabled = false;
@@ -44,10 +45,10 @@ public class Attacker : ActorTriggerBase
 	
 	protected virtual void OnTriggerEnter (Collider other) 
 	{	
-		if(Enabled == true && m_ParentActorAttachedTo != null )
+		if(Enabled == true && m_ParentActorAttachedTo != null && !JustSpawned)
 		{
 			Defender defender = other.gameObject.GetComponent<Defender>();
-			if( defender != null )
+			if( defender != null && !defender.JustSpawned)
 			{	
 				Actor defenderActor = defender.ParentActorAttachedTo;
 				

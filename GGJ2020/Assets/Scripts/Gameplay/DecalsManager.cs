@@ -7,12 +7,15 @@ public class DecalsManager : MonoBehaviour
     public enum DecalsType
     {
         DT_Tape = 0,
-
+        DT_Crack,
         DT_Count
     }
 
     [SerializeField]
     private Decal m_TapeDecalePrefab;
+
+    [SerializeField]
+    private Decal m_CrackDecalsPrefab;
 
     private List<Decal> m_AllDecals = new List<Decal>();
 
@@ -38,6 +41,13 @@ public class DecalsManager : MonoBehaviour
                 case DecalsType.DT_Tape:
                     {
                         GameObject go = GameObject.Instantiate(m_TapeDecalePrefab.gameObject);
+                        m_AllDecals.Add(go.GetComponent<Decal>());
+                        return go.GetComponent<Decal>();
+                    }
+
+                case DecalsType.DT_Crack:
+                    {
+                        GameObject go = GameObject.Instantiate(m_CrackDecalsPrefab.gameObject);
                         m_AllDecals.Add(go.GetComponent<Decal>());
                         return go.GetComponent<Decal>();
                     }

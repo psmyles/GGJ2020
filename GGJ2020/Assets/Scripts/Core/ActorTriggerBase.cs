@@ -7,8 +7,12 @@ public abstract class ActorTriggerBase : MonoBehaviour
 	// If its not attached to any parent it checks for its uses own game object
 	protected Actor 			m_ParentActorAttachedTo;
 	protected bool				m_Enabled;
-	
-	protected bool				m_DefaultEnabled;
+    protected bool              m_JustSpawned = true;
+
+    public bool JustSpawned
+    {
+        get { return m_JustSpawned; }
+    }
 	
 	protected virtual void Awake()
 	{
@@ -36,11 +40,13 @@ public abstract class ActorTriggerBase : MonoBehaviour
 	// Use this for initialization
 	protected virtual void Start () 
 	{
-		Enabled = m_DefaultEnabled;
 	}
 	
 	// Update is called once per frame
-	protected abstract void Update ();
+	protected virtual void Update ()
+    {
+        m_JustSpawned = false;
+    }
 	
 	public Actor ParentActorAttachedTo
     {
@@ -61,14 +67,6 @@ public abstract class ActorTriggerBase : MonoBehaviour
 			//Debug.Log("Set enabled for " + this.GetType().ToString() + " " + value);
 			gameObject.active = value;
 			m_Enabled = value;
-		}
-	}
-	
-	public bool DefaultEnabled
-	{
-		get
-		{
-			return m_DefaultEnabled;
 		}
 	}
 	

@@ -160,7 +160,6 @@ public class Character : Actor
 		}
 		else
 		{
-			SetToDefaultEnabledAllActorTriggerBase();
             if (CanUseAnimEventDataForSpeed())
                 CurrentMoveSpeed = 0.0f;
 		}

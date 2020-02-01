@@ -9,7 +9,6 @@ public class Defender : ActorTriggerBase
 	protected override void Awake()
 	{
 		base.Awake();
-		m_DefaultEnabled = true;
 	}
 	
 	// Use this for initialization
@@ -21,6 +20,7 @@ public class Defender : ActorTriggerBase
 	// Update is called once per frame
 	protected override void Update () 
 	{
+        base.Update();
 	}
 	
 	// Called before called Attacked if returns false Attacked will get called even if weapon
