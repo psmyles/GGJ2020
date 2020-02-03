@@ -122,7 +122,7 @@ public class Player : Character
     {
         base.FixedUpdate();
 
-        m_PlayerStateMachine.Update(Time.fixedDeltaTime);
+        m_PlayerStateMachine.Update(Time.deltaTime);
 
         float Percent = Mathf.Clamp((m_RunTimeToDash - m_CurrRunTime) / m_RunTimeToDash, 0.0f, 1.0f);
         m_PlayerHUD.SetMeterPercentage(Percent);
@@ -386,7 +386,7 @@ public class Player : Character
             transform.rotation = Quaternion.LookRotation(forward.normalized, Vector3.up);
         }
 
-        m_CurrRunTime -= Time.fixedDeltaTime;
+        m_CurrRunTime -= Time.deltaTime;
     }
 	
 	public void EndMoveState(State endingState, State newState)

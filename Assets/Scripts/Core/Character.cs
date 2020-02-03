@@ -40,11 +40,6 @@ public class Character : Actor
 	// Update is called once per frame
 	protected override void Update () 
 	{
-		
-	}
-
-    protected virtual void FixedUpdate()
-    {
         if (IsPhysicsGrounded() != true)
         {
             m_FrameNotGrounded++;
@@ -55,7 +50,7 @@ public class Character : Actor
         }
 
         ApplyAnimEventData(m_AnimEventData);
-        ApplyGravityAndForce(Time.fixedDeltaTime);
+        ApplyGravityAndForce(Time.deltaTime);
 
         Vector3 currTotalVel = m_CurrVelocity;
         ///*if (IsGrounded())
@@ -67,12 +62,17 @@ public class Character : Actor
 
         //Debug.Log("########## Velocity : " + currTotalVel);
 
-        m_CollisionFlags = m_CharacterController.Move(currTotalVel * Time.fixedDeltaTime);
+        m_CollisionFlags = m_CharacterController.Move(currTotalVel * Time.deltaTime);
 
         if (m_Flag.CheckFlag((uint)CharacterFlag.eCF_ResetMoveSpeedAfterUse) == true)
         {
             CurrentMoveSpeed = 0.0f;
         }
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        
     }
 
 

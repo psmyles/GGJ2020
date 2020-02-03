@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         Vector3 targetPos = m_Player.transform.position + m_CameraPosOffset;
 
