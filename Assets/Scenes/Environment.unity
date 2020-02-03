@@ -2410,6 +2410,11 @@ PrefabInstance:
       propertyPath: m_Player
       value: 
       objectReference: {fileID: 1425440733}
+    - target: {fileID: 2110099446476025165, guid: 28e64137460414c268ae931fb3c2471f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -22.300049
+      objectReference: {fileID: 0}
     - target: {fileID: 4413687339875598747, guid: 28e64137460414c268ae931fb3c2471f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2465,10 +2470,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388114570276696727, guid: 28e64137460414c268ae931fb3c2471f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 19.699951
+      objectReference: {fileID: 0}
     - target: {fileID: 6297312369232339573, guid: 28e64137460414c268ae931fb3c2471f,
         type: 3}
       propertyPath: m_Name
       value: HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 6713140501537717192, guid: 28e64137460414c268ae931fb3c2471f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -5.340027
+      objectReference: {fileID: 0}
+    - target: {fileID: 7905635006492613438, guid: 28e64137460414c268ae931fb3c2471f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 19.699951
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28e64137460414c268ae931fb3c2471f, type: 3}
@@ -2667,7 +2687,7 @@ PrefabInstance:
     - target: {fileID: 7680917141668134391, guid: 14bd973fc598eaf40aa2c354c2ae7696,
         type: 3}
       propertyPath: m_RunTimeToDash
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7680917141668134391, guid: 14bd973fc598eaf40aa2c354c2ae7696,
         type: 3}

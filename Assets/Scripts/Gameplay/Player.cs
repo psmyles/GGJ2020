@@ -28,6 +28,9 @@ public class Player : Character
     [SerializeField]
     private float                               m_DefaultMoveSpeed = 10.0f;
 
+    [SerializeField]
+    private float                               m_PlayerTurnAngSpeed = 360.0f;
+
     private bool                                m_bUseAnimEventDataForSpeed = false;
 
     private Vector2                             m_MoveDir = new Vector2(0.0f, 0.0f);
@@ -381,7 +384,7 @@ public class Player : Character
         if (turnDir.sqrMagnitude >= TURN_DIR_EPSILON)
         {
             turnDir.Normalize();
-            Vector3 forward = Vector3.Slerp(transform.forward, turnDir, 0.2f);
+            Vector3 forward = Rotate(transform.forward, turnDir, Mathf.Deg2Rad * m_PlayerTurnAngSpeed, deltaTime);//Vector3.Slerp(transform.forward, turnDir, 0.2f);
             //transform.forward = forward.normalized;
             transform.rotation = Quaternion.LookRotation(forward.normalized, Vector3.up);
         }
@@ -394,6 +397,30 @@ public class Player : Character
         CurrentMoveSpeed = 0;
         ClearCharacterFlag(CharacterFlag.eCF_ResetMoveSpeedAfterUse);
 	}
+
+    public Vector3 Rotate(Vector3 currDir, Vector3 targetDir, float angleSpeedRad, float deltaTime)
+    {
+        float radAngle = Mathf.Acos(Mathf.Clamp(Vector3.Dot(currDir, targetDir), 0.0f, 1.0f));
+        float angleToRotate = angleSpeedRad * deltaTime;
+
+        float targetAngle = Mathf.Clamp(radAngle - angleToRotate, 0.0f, Mathf.PI);
+
+        //Debug.Log("## Target angle : " + targetAngle);
+
+        Vector3 rotAxis = Vector3.Cross(targetDir, currDir);
+        const float EPSILON = 0.000001f;
+        if (rotAxis.sqrMagnitude <= EPSILON)
+        {
+            rotAxis = Vector3.up;
+        }
+        else
+        {
+            rotAxis.Normalize();
+        }
+
+        return Quaternion.AngleAxis(Mathf.Rad2Deg * targetAngle, rotAxis) * targetDir;
+    }
+
     // End Walk, Run State
     // -----------------
 

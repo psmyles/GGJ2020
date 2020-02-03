@@ -99,7 +99,6 @@
     <Compile Include="Assets\Scripts\Utilities\ProbabilityGroup.cs" />
     <Compile Include="Assets\Scripts\Utilities\SimpleTimerArray.cs" />
     <Compile Include="Assets\Scripts\Utilities\TypeUtilities.cs" />
-    <Compile Include="Assets\TestRigidBody.cs" />
     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
       <HintPath>D:/Parag/GlobalGameJam2020/GGJ2020/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
     </Reference>
