@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4589988, g: 0.5094684, b: 0.5882605, a: 1}
+  m_IndirectSpecularColor: {r: 0.17803411, g: 0.22290984, b: 0.305016, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1326,8 +1326,8 @@ MonoBehaviour:
   m_AllSpawnArea:
   - {fileID: 1981914413}
   - {fileID: 1151459848}
-  m_ProjectileSpawnMinTime: 1
-  m_ProjectileSpawnMaxTime: 2
+  m_ProjectileSpawnMinTime: 4
+  m_ProjectileSpawnMaxTime: 8
   m_LowestAllowedProjectileSpawnMinTime: 0.5
   m_LowestAllowedProjectileSpawnMaxTime: 0.75
   m_IncreaseParticleSpawnMinMaxTimeInEvery: 15
